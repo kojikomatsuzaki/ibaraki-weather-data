@@ -18,11 +18,13 @@ MASTER_DIR = Path("data/master")
 REQUEST_INTERVAL_SEC = 0.3
 TEST_LIMIT = int(os.environ.get("TEST_LIMIT", "3"))
 FALLBACK_STEPS = int(os.environ.get("FALLBACK_STEPS", "6"))
+DIAGNOSTIC_STATION_ID = int(os.environ.get("DIAGNOSTIC_STATION_ID", "0"))
+DIAGNOSTIC_STEPS = int(os.environ.get("DIAGNOSTIC_STEPS", "36"))
 
 
-def get_latest_times(session):
+def get_latest_times(session, station_id=ENTRY_STA_ID):
     """雨量詳細ページHTMLから最新時刻情報を取得する。"""
-    url = f"{BASE_URL}/Sta/RainfallSta?obsStaId={ENTRY_STA_ID}"
+    url = f"{BASE_URL}/Sta/RainfallSta?obsStaId={station_id}"
     response = session.get(url, timeout=30)
     response.raise_for_status()
 
@@ -36,7 +38,7 @@ def get_latest_times(session):
         raise RuntimeError("#latest-times の value が空です")
 
     latest = json.loads(html.unescape(raw_value))
-    return latest, url
+    return latest, soup, url
 
 
 def get_station_master(session, obs_data_chg_time):
@@ -72,12 +74,7 @@ def validate_station_id(data, station_id):
         )
 
 
-def get_rainfall_with_fallback(
-    session,
-    station_id,
-    start_time,
-    obs_data_chg_time,
-):
+def get_rainfall_with_fallback(session, station_id, start_time, obs_data_chg_time):
     """最新時刻を試し、404時のみ10分刻みで少し遡る。"""
     current = datetime.strptime(start_time, "%Y%m%d%H%M")
 
@@ -108,6 +105,110 @@ def get_rainfall_with_fallback(
     )
 
 
+def collect_page_indicators(soup):
+    """欠測・閉局等の表示手掛かりになりそうな要素を収集する。"""
+    keywords = ("欠測", "閉局", "未収集", "休止", "停止", "観測", "雨量")
+    indicators = []
+    seen = set()
+
+    for tag in soup.find_all(["input", "div", "span", "td", "th", "p"]):
+        value = tag.get("value")
+        text = value if value is not None else tag.get_text(" ", strip=True)
+        if not text:
+            continue
+        compact = " ".join(str(text).split())
+        if not any(keyword in compact for keyword in keywords):
+            continue
+        if len(compact) > 240:
+            compact = compact[:240]
+        key = (tag.name, tag.get("id") or "", compact)
+        if key in seen:
+            continue
+        seen.add(key)
+        indicators.append(
+            {
+                "tag": tag.name,
+                "id": tag.get("id") or None,
+                "class": tag.get("class") or None,
+                "text": compact,
+            }
+        )
+        if len(indicators) >= 30:
+            break
+
+    return indicators
+
+
+def diagnose_station(session, station_id):
+    """特定局のマスタ・ページ状態・直近JSON有無を診断する。"""
+    latest, soup, entry_url = get_latest_times(session, station_id)
+    system_latest_time = latest["systemLatestTime"]
+    rain_sta_latest_time = latest.get("rainStaLatestTime", system_latest_time)
+    obs_data_chg_time = latest["obsDataChgTime"]
+    retrieved_at = datetime.now(timezone.utc).isoformat()
+
+    master, master_url = get_station_master(session, obs_data_chg_time)
+    station = next((item for item in master if item.get("staKind") == 1 and item.get("staId") == station_id), None)
+
+    print(f"=== station diagnostic: staId={station_id} ===")
+    print("entryUrl:", entry_url)
+    print("rainStaLatestTime:", rain_sta_latest_time)
+    print("obsDataChgTime:", obs_data_chg_time)
+    print("master:")
+    print(json.dumps(station, ensure_ascii=False, indent=2))
+
+    attempts = []
+    found = None
+    current = datetime.strptime(rain_sta_latest_time, "%Y%m%d%H%M")
+
+    print(f"=== probe up to {DIAGNOSTIC_STEPS * 10} minutes ===")
+    for step in range(DIAGNOSTIC_STEPS + 1):
+        candidate = (current - timedelta(minutes=10 * step)).strftime("%Y%m%d%H%M")
+        url = rainfall_url(station_id, candidate, obs_data_chg_time)
+        response = session.get(url, timeout=30)
+        attempts.append({"time": candidate, "status": response.status_code, "url": url})
+        print(f"{candidate}: HTTP {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            validate_station_id(data, station_id)
+            found = {
+                "resolved_latest_time": candidate,
+                "source_url": url,
+                "obs_time": data.get("tableData", {}).get("obsTime"),
+                "data": data,
+            }
+            print("FOUND:", url)
+            print("obsTime:", found["obs_time"])
+            break
+
+        if response.status_code != 404:
+            response.raise_for_status()
+
+        if step < DIAGNOSTIC_STEPS:
+            time.sleep(REQUEST_INTERVAL_SEC)
+
+    indicators = collect_page_indicators(soup)
+    print("=== page indicators ===")
+    for item in indicators:
+        print(item)
+
+    save_json(
+        OUTPUT_DIR / "diagnostic" / f"{station_id}.json",
+        {
+            "retrieved_at": retrieved_at,
+            "entry_url": entry_url,
+            "master_url": master_url,
+            "station": station,
+            "latest_times": latest,
+            "page_indicators": indicators,
+            "probe_window_minutes": DIAGNOSTIC_STEPS * 10,
+            "attempts": attempts,
+            "found": found,
+        },
+    )
+
+
 def save_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as file:
@@ -126,7 +227,11 @@ def main():
         }
     )
 
-    latest, entry_url = get_latest_times(session)
+    if DIAGNOSTIC_STATION_ID > 0:
+        diagnose_station(session, DIAGNOSTIC_STATION_ID)
+        return
+
+    latest, _, entry_url = get_latest_times(session)
     system_latest_time = latest["systemLatestTime"]
     rain_sta_latest_time = latest.get("rainStaLatestTime", system_latest_time)
     obs_data_chg_time = latest["obsDataChgTime"]
@@ -187,9 +292,7 @@ def main():
 
             if fallback_steps:
                 fallback_used += 1
-                print(
-                    f"OK (fallback {fallback_steps * 10} min -> {resolved_time})"
-                )
+                print(f"OK (fallback {fallback_steps * 10} min -> {resolved_time})")
             else:
                 print("OK (latest)")
 
@@ -242,8 +345,8 @@ def main():
     print("取得失敗:", len(failed))
     print("フォールバック使用:", fallback_used)
 
-    if failed:
-        raise SystemExit(1)
+    # 本番運用では欠測局等があっても取得済みデータを保存できるよう、
+    # 局単位の失敗だけでは workflow 全体を失敗させない。
 
 
 if __name__ == "__main__":
