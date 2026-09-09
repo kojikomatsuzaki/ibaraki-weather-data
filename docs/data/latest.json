@@ -1,0 +1,63 @@
+{
+  "alpha": true,
+  "snapshot": "202609091350",
+  "retrievedAt": "2026-09-09T05:12:06.037319+00:00",
+  "rainStaLatestTime": "202609091350",
+  "requested": 3,
+  "success": 2,
+  "notFound": null,
+  "fallbackUsed": 1,
+  "stations": [
+    {
+      "staId": 1,
+      "staName": "茨城町役場",
+      "cityName": "茨城町",
+      "officeName": "水戸土木事務所",
+      "riverName": "涸沼川",
+      "lat": 36.286944,
+      "lon": 140.424167,
+      "obsTime": "2026/09/09 13:50",
+      "resolvedLatestTime": "202609091350",
+      "fallbackSteps": 0,
+      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091350_1_20260908064354.json",
+      "hourRain": {
+        "time": "2026/09/09 13:50",
+        "data": "0.0",
+        "lvl": 0,
+        "upDown": "None"
+      },
+      "cumulativeRain": {
+        "time": "2026/09/09 13:50",
+        "data": "0.0",
+        "lvl": 0,
+        "upDown": "None"
+      }
+    },
+    {
+      "staId": 3,
+      "staName": "岩間支所",
+      "cityName": "笠間市",
+      "officeName": "水戸土木事務所",
+      "riverName": "涸沼川",
+      "lat": 36.298056,
+      "lon": 140.292778,
+      "obsTime": "2026/09/09 13:40",
+      "resolvedLatestTime": "202609091340",
+      "fallbackSteps": 1,
+      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091340_3_20260908064354.json",
+      "hourRain": {
+        "time": "2026/09/09 13:40",
+        "data": "2.0",
+        "lvl": 0,
+        "upDown": "None"
+      },
+      "cumulativeRain": {
+        "time": "2026/09/09 13:40",
+        "data": "2.0",
+        "lvl": 0,
+        "upDown": "None"
+      }
+    }
+  ],
+  "unavailable": 1
+}
