@@ -3,6 +3,7 @@
 import html
 import json
 import os
+import re
 import time
 from pathlib import Path
 
@@ -16,6 +17,7 @@ OUTPUT_DIR = Path("data/raw/rainfall")
 MASTER_DIR = Path("data/master")
 REQUEST_INTERVAL_SEC = 0.3
 TEST_LIMIT = int(os.environ.get("TEST_LIMIT", "3"))
+DIAGNOSTIC = os.environ.get("DIAGNOSTIC", "0") == "1"
 
 
 def get_latest_times(session):
@@ -35,7 +37,47 @@ def get_latest_times(session):
 
     latest = json.loads(html.unescape(raw_value))
 
-    return latest["systemLatestTime"], latest["obsDataChgTime"], url
+    return latest, response.text, soup, url
+
+
+def print_diagnostics(latest, page_html, soup):
+    print("=== #latest-times full JSON ===")
+    print(json.dumps(latest, ensure_ascii=False, indent=2))
+
+    print("\n=== GetRainfallStaData references in HTML ===")
+    refs = sorted(
+        set(
+            re.findall(
+                r"GetRainfallStaData_[A-Za-z0-9_./?=&%-]+?\\.json",
+                page_html,
+            )
+        )
+    )
+    if refs:
+        for ref in refs:
+            print(ref)
+    else:
+        print("(none)")
+
+    print("\n=== time/rain related form values ===")
+    found = 0
+    for tag in soup.find_all(["input", "meta", "div", "span"]):
+        tag_id = tag.get("id") or ""
+        tag_name = tag.get("name") or ""
+        key = f"{tag_id} {tag_name}".lower()
+        if "time" not in key and "rain" not in key:
+            continue
+
+        value = tag.get("value")
+        content = tag.get("content")
+        text = tag.get_text(" ", strip=True)
+        printable = value if value is not None else content if content is not None else text
+        if printable:
+            print(f"<{tag.name}> id={tag_id!r} name={tag_name!r} value={printable!r}")
+            found += 1
+
+    if not found:
+        print("(none)")
 
 
 def get_station_master(session, obs_data_chg_time):
@@ -93,11 +135,17 @@ def main():
         }
     )
 
-    system_latest_time, obs_data_chg_time, entry_url = get_latest_times(session)
+    latest, page_html, soup, entry_url = get_latest_times(session)
+    system_latest_time = latest["systemLatestTime"]
+    obs_data_chg_time = latest["obsDataChgTime"]
 
     print("entryUrl:", entry_url)
     print("systemLatestTime:", system_latest_time)
     print("obsDataChgTime:", obs_data_chg_time)
+
+    if DIAGNOSTIC:
+        print_diagnostics(latest, page_html, soup)
+        return
 
     master, master_url = get_station_master(session, obs_data_chg_time)
     rainfall_stations = extract_rainfall_stations(master)
