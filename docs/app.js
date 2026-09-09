@@ -26,7 +26,8 @@ async function main(){
     root.appendChild(el);
   }
 
-  for(const u of data.unavailable || []){
+  const unavailable = Array.isArray(data.unavailable) ? data.unavailable : [];
+  for(const u of unavailable){
     const el = document.createElement('article');
     el.className = 'card unavailable';
     el.innerHTML = `<h2>${u.staName ?? `staId=${u.staId}`}</h2><div class="meta">取得未確認</div><p>指定時刻付近では観測JSONを確認できませんでした。</p>`;
