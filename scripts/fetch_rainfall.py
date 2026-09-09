@@ -4,7 +4,7 @@ import html
 import json
 import os
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -17,8 +17,7 @@ OUTPUT_DIR = Path("data/raw/rainfall")
 MASTER_DIR = Path("data/master")
 REQUEST_INTERVAL_SEC = 0.3
 TEST_LIMIT = int(os.environ.get("TEST_LIMIT", "3"))
-PROBE_MODE = os.environ.get("PROBE_MODE", "0") == "1"
-PROBE_STEPS = int(os.environ.get("PROBE_STEPS", "18"))
+FALLBACK_STEPS = int(os.environ.get("FALLBACK_STEPS", "6"))
 
 
 def get_latest_times(session):
@@ -65,51 +64,48 @@ def rainfall_url(station_id, latest_time, obs_data_chg_time):
     )
 
 
-def get_rainfall_data(session, station_id, latest_time, obs_data_chg_time):
-    """1観測局分の雨量JSONを取得する。"""
-    url = rainfall_url(station_id, latest_time, obs_data_chg_time)
-    response = session.get(url, timeout=30)
-    response.raise_for_status()
-    data = response.json()
-
+def validate_station_id(data, station_id):
     actual_station_id = data.get("tableData", {}).get("staId")
     if actual_station_id != station_id:
         raise RuntimeError(
             f"staId mismatch: expected={station_id}, actual={actual_station_id}"
         )
 
-    return data, url
 
-
-def probe_latest_available_time(session, station_id, start_time, obs_data_chg_time):
-    """開始時刻から10分刻みで遡り、最初に存在する雨量JSONを探す。"""
+def get_rainfall_with_fallback(
+    session,
+    station_id,
+    start_time,
+    obs_data_chg_time,
+):
+    """最新時刻を試し、404時のみ10分刻みで少し遡る。"""
     current = datetime.strptime(start_time, "%Y%m%d%H%M")
 
-    print(f"=== probe staId={station_id} from {start_time} ===")
-    for step in range(PROBE_STEPS + 1):
+    for step in range(FALLBACK_STEPS + 1):
         candidate = (current - timedelta(minutes=10 * step)).strftime("%Y%m%d%H%M")
         url = rainfall_url(station_id, candidate, obs_data_chg_time)
         response = session.get(url, timeout=30)
-        print(f"{candidate}: HTTP {response.status_code}")
 
         if response.status_code == 200:
             data = response.json()
-            actual_station_id = data.get("tableData", {}).get("staId")
-            if actual_station_id != station_id:
-                raise RuntimeError(
-                    f"staId mismatch during probe: expected={station_id}, actual={actual_station_id}"
-                )
-            print("FOUND:", url)
-            print("obsTime:", data.get("tableData", {}).get("obsTime"))
-            return candidate, data, url
+            validate_station_id(data, station_id)
+            return {
+                "resolved_latest_time": candidate,
+                "fallback_steps": step,
+                "source_url": url,
+                "data": data,
+            }
 
         if response.status_code != 404:
             response.raise_for_status()
 
-        time.sleep(REQUEST_INTERVAL_SEC)
+        if step < FALLBACK_STEPS:
+            time.sleep(REQUEST_INTERVAL_SEC)
 
-    print("NOT FOUND within probe window")
-    return None, None, None
+    raise RuntimeError(
+        f"rainfall JSON not found within {FALLBACK_STEPS * 10} minutes "
+        f"from {start_time}"
+    )
 
 
 def save_json(path, data):
@@ -134,35 +130,13 @@ def main():
     system_latest_time = latest["systemLatestTime"]
     rain_sta_latest_time = latest.get("rainStaLatestTime", system_latest_time)
     obs_data_chg_time = latest["obsDataChgTime"]
+    retrieved_at = datetime.now(timezone.utc).isoformat()
 
     print("entryUrl:", entry_url)
     print("systemLatestTime:", system_latest_time)
     print("rainStaLatestTime:", rain_sta_latest_time)
     print("obsDataChgTime:", obs_data_chg_time)
-
-    if PROBE_MODE:
-        candidate, data, source_url = probe_latest_available_time(
-            session,
-            ENTRY_STA_ID,
-            rain_sta_latest_time,
-            obs_data_chg_time,
-        )
-        if candidate is None:
-            raise SystemExit(1)
-
-        save_json(
-            OUTPUT_DIR / "probe" / f"{ENTRY_STA_ID}.json",
-            {
-                "entry_url": entry_url,
-                "source_url": source_url,
-                "system_latest_time": system_latest_time,
-                "rain_sta_latest_time": rain_sta_latest_time,
-                "resolved_latest_time": candidate,
-                "obs_data_chg_time": obs_data_chg_time,
-                "data": data,
-            },
-        )
-        return
+    print("fallbackWindowMinutes:", FALLBACK_STEPS * 10)
 
     master, master_url = get_station_master(session, obs_data_chg_time)
     rainfall_stations = extract_rainfall_stations(master)
@@ -179,6 +153,7 @@ def main():
         {
             "source_url": master_url,
             "retrieved_via": entry_url,
+            "retrieved_at": retrieved_at,
             "system_latest_time": system_latest_time,
             "rain_sta_latest_time": rain_sta_latest_time,
             "obs_data_chg_time": obs_data_chg_time,
@@ -189,6 +164,8 @@ def main():
 
     success = 0
     failed = []
+    fallback_used = 0
+    resolved_times = {}
     output_date = rain_sta_latest_time[:8]
 
     for station in rainfall_stations:
@@ -197,25 +174,42 @@ def main():
         print(f"[{station_id}] {station_name}", end=" ... ", flush=True)
 
         try:
-            data, source_url = get_rainfall_data(
+            result = get_rainfall_with_fallback(
                 session,
                 station_id,
                 rain_sta_latest_time,
                 obs_data_chg_time,
             )
+
+            resolved_time = result["resolved_latest_time"]
+            fallback_steps = result["fallback_steps"]
+            resolved_times[str(station_id)] = resolved_time
+
+            if fallback_steps:
+                fallback_used += 1
+                print(
+                    f"OK (fallback {fallback_steps * 10} min -> {resolved_time})"
+                )
+            else:
+                print("OK (latest)")
+
             save_json(
                 OUTPUT_DIR / output_date / f"{station_id}.json",
                 {
-                    "source_url": source_url,
+                    "entry_url": entry_url,
+                    "source_url": result["source_url"],
+                    "retrieved_at": retrieved_at,
                     "system_latest_time": system_latest_time,
                     "rain_sta_latest_time": rain_sta_latest_time,
+                    "resolved_latest_time": resolved_time,
+                    "fallback_steps": fallback_steps,
                     "obs_data_chg_time": obs_data_chg_time,
                     "station": station,
-                    "data": data,
+                    "data": result["data"],
                 },
             )
-            print("OK")
             success += 1
+
         except Exception as error:
             print("FAILED:", error)
             failed.append(
@@ -229,12 +223,16 @@ def main():
         time.sleep(REQUEST_INTERVAL_SEC)
 
     summary = {
+        "retrieved_at": retrieved_at,
         "system_latest_time": system_latest_time,
         "rain_sta_latest_time": rain_sta_latest_time,
         "obs_data_chg_time": obs_data_chg_time,
+        "fallback_window_minutes": FALLBACK_STEPS * 10,
         "requested": len(rainfall_stations),
         "success": success,
         "failed": len(failed),
+        "fallback_used": fallback_used,
+        "resolved_latest_times": resolved_times,
         "failures": failed,
     }
     save_json(OUTPUT_DIR / output_date / "_summary.json", summary)
@@ -242,6 +240,7 @@ def main():
     print()
     print("取得成功:", success)
     print("取得失敗:", len(failed))
+    print("フォールバック使用:", fallback_used)
 
     if failed:
         raise SystemExit(1)
