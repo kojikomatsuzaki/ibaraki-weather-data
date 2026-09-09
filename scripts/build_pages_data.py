@@ -64,6 +64,8 @@ def main():
             continue
         stations.append(compact_station(path))
 
+    unavailable_stations = manifest.get("unavailable_stations") or []
+
     payload = {
         "alpha": True,
         "snapshot": snapshot.name,
@@ -71,10 +73,10 @@ def main():
         "rainStaLatestTime": manifest.get("rain_sta_latest_time"),
         "requested": manifest.get("requested"),
         "success": manifest.get("success"),
-        "notFound": manifest.get("not_found"),
+        "unavailableCount": manifest.get("unavailable", len(unavailable_stations)),
         "fallbackUsed": manifest.get("fallback_used"),
         "stations": stations,
-        "unavailable": manifest.get("unavailable", []),
+        "unavailable": unavailable_stations,
     }
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
