@@ -18,12 +18,9 @@ MASTER_DIR = Path("data/master")
 REQUEST_INTERVAL_SEC = 0.3
 TEST_LIMIT = int(os.environ.get("TEST_LIMIT", "3"))
 FALLBACK_STEPS = int(os.environ.get("FALLBACK_STEPS", "6"))
-DIAGNOSTIC_STATION_ID = int(os.environ.get("DIAGNOSTIC_STATION_ID", "0"))
-DIAGNOSTIC_STEPS = int(os.environ.get("DIAGNOSTIC_STEPS", "36"))
 
 
 def get_latest_times(session, station_id=ENTRY_STA_ID):
-    """雨量詳細ページHTMLから最新時刻情報を取得する。"""
     url = f"{BASE_URL}/Sta/RainfallSta?obsStaId={station_id}"
     response = session.get(url, timeout=30)
     response.raise_for_status()
@@ -38,11 +35,10 @@ def get_latest_times(session, station_id=ENTRY_STA_ID):
         raise RuntimeError("#latest-times の value が空です")
 
     latest = json.loads(html.unescape(raw_value))
-    return latest, soup, url
+    return latest, url
 
 
 def get_station_master(session, obs_data_chg_time):
-    """観測局マスタを取得する。"""
     url = (
         f"{BASE_URL}/Static/Common/"
         f"GetStaMasterList_{obs_data_chg_time}.json"
@@ -53,7 +49,6 @@ def get_station_master(session, obs_data_chg_time):
 
 
 def extract_rainfall_stations(master):
-    """staKind=1 の雨量局だけを抽出する。"""
     stations = [station for station in master if station.get("staKind") == 1]
     stations.sort(key=lambda station: station.get("staId", 0))
     return stations
@@ -75,138 +70,59 @@ def validate_station_id(data, station_id):
 
 
 def get_rainfall_with_fallback(session, station_id, start_time, obs_data_chg_time):
-    """最新時刻を試し、404時のみ10分刻みで少し遡る。"""
     current = datetime.strptime(start_time, "%Y%m%d%H%M")
+    attempts = []
 
     for step in range(FALLBACK_STEPS + 1):
         candidate = (current - timedelta(minutes=10 * step)).strftime("%Y%m%d%H%M")
         url = rainfall_url(station_id, candidate, obs_data_chg_time)
         response = session.get(url, timeout=30)
+        attempts.append(
+            {
+                "time": candidate,
+                "http_status": response.status_code,
+                "url": url,
+            }
+        )
 
         if response.status_code == 200:
             data = response.json()
             validate_station_id(data, station_id)
             return {
+                "status": "available",
                 "resolved_latest_time": candidate,
                 "fallback_steps": step,
                 "source_url": url,
+                "attempts": attempts,
                 "data": data,
             }
 
         if response.status_code != 404:
-            response.raise_for_status()
+            return {
+                "status": "http_error",
+                "resolved_latest_time": None,
+                "fallback_steps": None,
+                "source_url": None,
+                "attempts": attempts,
+                "error": f"HTTP {response.status_code}",
+                "data": None,
+            }
 
         if step < FALLBACK_STEPS:
             time.sleep(REQUEST_INTERVAL_SEC)
 
-    raise RuntimeError(
-        f"rainfall JSON not found within {FALLBACK_STEPS * 10} minutes "
-        f"from {start_time}"
-    )
-
-
-def collect_page_indicators(soup):
-    """欠測・閉局等の表示手掛かりになりそうな要素を収集する。"""
-    keywords = ("欠測", "閉局", "未収集", "休止", "停止", "観測", "雨量")
-    indicators = []
-    seen = set()
-
-    for tag in soup.find_all(["input", "div", "span", "td", "th", "p"]):
-        value = tag.get("value")
-        text = value if value is not None else tag.get_text(" ", strip=True)
-        if not text:
-            continue
-        compact = " ".join(str(text).split())
-        if not any(keyword in compact for keyword in keywords):
-            continue
-        if len(compact) > 240:
-            compact = compact[:240]
-        key = (tag.name, tag.get("id") or "", compact)
-        if key in seen:
-            continue
-        seen.add(key)
-        indicators.append(
-            {
-                "tag": tag.name,
-                "id": tag.get("id") or None,
-                "class": tag.get("class") or None,
-                "text": compact,
-            }
-        )
-        if len(indicators) >= 30:
-            break
-
-    return indicators
-
-
-def diagnose_station(session, station_id):
-    """特定局のマスタ・ページ状態・直近JSON有無を診断する。"""
-    latest, soup, entry_url = get_latest_times(session, station_id)
-    system_latest_time = latest["systemLatestTime"]
-    rain_sta_latest_time = latest.get("rainStaLatestTime", system_latest_time)
-    obs_data_chg_time = latest["obsDataChgTime"]
-    retrieved_at = datetime.now(timezone.utc).isoformat()
-
-    master, master_url = get_station_master(session, obs_data_chg_time)
-    station = next((item for item in master if item.get("staKind") == 1 and item.get("staId") == station_id), None)
-
-    print(f"=== station diagnostic: staId={station_id} ===")
-    print("entryUrl:", entry_url)
-    print("rainStaLatestTime:", rain_sta_latest_time)
-    print("obsDataChgTime:", obs_data_chg_time)
-    print("master:")
-    print(json.dumps(station, ensure_ascii=False, indent=2))
-
-    attempts = []
-    found = None
-    current = datetime.strptime(rain_sta_latest_time, "%Y%m%d%H%M")
-
-    print(f"=== probe up to {DIAGNOSTIC_STEPS * 10} minutes ===")
-    for step in range(DIAGNOSTIC_STEPS + 1):
-        candidate = (current - timedelta(minutes=10 * step)).strftime("%Y%m%d%H%M")
-        url = rainfall_url(station_id, candidate, obs_data_chg_time)
-        response = session.get(url, timeout=30)
-        attempts.append({"time": candidate, "status": response.status_code, "url": url})
-        print(f"{candidate}: HTTP {response.status_code}")
-
-        if response.status_code == 200:
-            data = response.json()
-            validate_station_id(data, station_id)
-            found = {
-                "resolved_latest_time": candidate,
-                "source_url": url,
-                "obs_time": data.get("tableData", {}).get("obsTime"),
-                "data": data,
-            }
-            print("FOUND:", url)
-            print("obsTime:", found["obs_time"])
-            break
-
-        if response.status_code != 404:
-            response.raise_for_status()
-
-        if step < DIAGNOSTIC_STEPS:
-            time.sleep(REQUEST_INTERVAL_SEC)
-
-    indicators = collect_page_indicators(soup)
-    print("=== page indicators ===")
-    for item in indicators:
-        print(item)
-
-    save_json(
-        OUTPUT_DIR / "diagnostic" / f"{station_id}.json",
-        {
-            "retrieved_at": retrieved_at,
-            "entry_url": entry_url,
-            "master_url": master_url,
-            "station": station,
-            "latest_times": latest,
-            "page_indicators": indicators,
-            "probe_window_minutes": DIAGNOSTIC_STEPS * 10,
-            "attempts": attempts,
-            "found": found,
-        },
-    )
+    return {
+        "status": "not_found_at_requested_times",
+        "resolved_latest_time": None,
+        "fallback_steps": None,
+        "source_url": None,
+        "attempts": attempts,
+        "error": (
+            f"rainfall JSON not found within {FALLBACK_STEPS * 10} minutes "
+            f"from {start_time}"
+        ),
+        "data": None,
+    }
 
 
 def save_json(path, data):
@@ -221,17 +137,13 @@ def main():
     session.headers.update(
         {
             "User-Agent": (
-                "ibaraki-weather-data/0.1 "
+                "ibaraki-weather-data/0.2 "
                 "(+https://github.com/kojikomatsuzaki/ibaraki-weather-data)"
             )
         }
     )
 
-    if DIAGNOSTIC_STATION_ID > 0:
-        diagnose_station(session, DIAGNOSTIC_STATION_ID)
-        return
-
-    latest, _, entry_url = get_latest_times(session)
+    latest, entry_url = get_latest_times(session)
     system_latest_time = latest["systemLatestTime"]
     rain_sta_latest_time = latest.get("rainStaLatestTime", system_latest_time)
     obs_data_chg_time = latest["obsDataChgTime"]
@@ -253,25 +165,30 @@ def main():
         rainfall_stations = rainfall_stations[:TEST_LIMIT]
         print("テスト取得件数:", len(rainfall_stations))
 
-    save_json(
-        MASTER_DIR / f"rainfall_stations_{obs_data_chg_time}.json",
-        {
-            "source_url": master_url,
-            "retrieved_via": entry_url,
-            "retrieved_at": retrieved_at,
-            "system_latest_time": system_latest_time,
-            "rain_sta_latest_time": rain_sta_latest_time,
-            "obs_data_chg_time": obs_data_chg_time,
-            "station_count": len(rainfall_stations),
-            "stations": rainfall_stations,
-        },
+    master_path = MASTER_DIR / f"rainfall_stations_{obs_data_chg_time}.json"
+    if not master_path.exists():
+        save_json(
+            master_path,
+            {
+                "source_url": master_url,
+                "retrieved_via": entry_url,
+                "retrieved_at": retrieved_at,
+                "obs_data_chg_time": obs_data_chg_time,
+                "station_count": len(extract_rainfall_stations(master)),
+                "stations": extract_rainfall_stations(master),
+            },
+        )
+
+    snapshot_dir = (
+        OUTPUT_DIR
+        / rain_sta_latest_time[:8]
+        / rain_sta_latest_time
     )
 
     success = 0
-    failed = []
+    unavailable = []
     fallback_used = 0
     resolved_times = {}
-    output_date = rain_sta_latest_time[:8]
 
     for station in rainfall_stations:
         station_id = station["staId"]
@@ -285,7 +202,18 @@ def main():
                 rain_sta_latest_time,
                 obs_data_chg_time,
             )
+        except Exception as error:
+            result = {
+                "status": "exception",
+                "resolved_latest_time": None,
+                "fallback_steps": None,
+                "source_url": None,
+                "attempts": [],
+                "error": str(error),
+                "data": None,
+            }
 
+        if result["status"] == "available":
             resolved_time = result["resolved_latest_time"]
             fallback_steps = result["fallback_steps"]
             resolved_times[str(station_id)] = resolved_time
@@ -297,7 +225,7 @@ def main():
                 print("OK (latest)")
 
             save_json(
-                OUTPUT_DIR / output_date / f"{station_id}.json",
+                snapshot_dir / f"{station_id}.json",
                 {
                     "entry_url": entry_url,
                     "source_url": result["source_url"],
@@ -312,41 +240,44 @@ def main():
                 },
             )
             success += 1
-
-        except Exception as error:
-            print("FAILED:", error)
-            failed.append(
+        else:
+            print(result["status"])
+            unavailable.append(
                 {
                     "staId": station_id,
                     "staName": station_name,
-                    "error": str(error),
+                    "status": result["status"],
+                    "error": result.get("error"),
+                    "attempts": result.get("attempts", []),
                 }
             )
 
         time.sleep(REQUEST_INTERVAL_SEC)
 
-    summary = {
+    manifest = {
         "retrieved_at": retrieved_at,
+        "entry_url": entry_url,
         "system_latest_time": system_latest_time,
         "rain_sta_latest_time": rain_sta_latest_time,
         "obs_data_chg_time": obs_data_chg_time,
         "fallback_window_minutes": FALLBACK_STEPS * 10,
         "requested": len(rainfall_stations),
         "success": success,
-        "failed": len(failed),
+        "unavailable": len(unavailable),
         "fallback_used": fallback_used,
         "resolved_latest_times": resolved_times,
-        "failures": failed,
+        "unavailable_stations": unavailable,
     }
-    save_json(OUTPUT_DIR / output_date / "_summary.json", summary)
+    save_json(snapshot_dir / "_manifest.json", manifest)
 
     print()
     print("取得成功:", success)
-    print("取得失敗:", len(failed))
+    print("今回取得できなかった局:", len(unavailable))
     print("フォールバック使用:", fallback_used)
+    print("snapshot:", snapshot_dir)
 
-    # 本番運用では欠測局等があっても取得済みデータを保存できるよう、
-    # 局単位の失敗だけでは workflow 全体を失敗させない。
+    # 局単位の404や欠測は観測事実として記録し、workflow全体は失敗させない。
+    # HTML・マスタ等の基盤取得自体が失敗した場合のみ例外で停止する。
 
 
 if __name__ == "__main__":
