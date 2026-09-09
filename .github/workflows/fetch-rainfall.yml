@@ -2,6 +2,9 @@ name: Fetch rainfall test
 
 on:
   workflow_dispatch:
+  schedule:
+    # GitHub Actions cron is UTC. 00:00,03:00,... UTC = 09:00,12:00,... JST.
+    - cron: "0 */3 * * *"
 
 permissions:
   contents: write
