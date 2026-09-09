@@ -1,0 +1,476 @@
+{
+  "retrieved_at": "2026-09-09T04:48:17.584041+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=2",
+  "master_url": "https://kasen-pref-ibaraki.jp/Static/Common/GetStaMasterList_20260908064354.json",
+  "station": {
+    "staKind": 1,
+    "staId": 2,
+    "staName": "内原支所",
+    "staKana": "うちはらししょ",
+    "officeId": 12,
+    "cityCode": "0820100",
+    "staLat": 36.362222,
+    "staLon": 140.356389,
+    "keyword": "",
+    "comment": "",
+    "staSortNum": 152,
+    "staState": 0,
+    "cityName": "水戸市",
+    "cityKana": "みとし",
+    "cityLat": 36.365861,
+    "cityLon": 140.471222,
+    "officeName": "水戸土木事務所",
+    "areaId": 3,
+    "areaName": "県央",
+    "cameraId": null,
+    "rainId": null,
+    "upStaId": null,
+    "downStaId": null,
+    "upDownSort": 0,
+    "riverId": 131,
+    "riverName": "涸沼川",
+    "riverKana": "ひぬまがわ",
+    "riverSysId": 13,
+    "riverSysName": "那珂川",
+    "riverKind": null,
+    "riverCode": null,
+    "consts": [
+      {
+        "kind": 1,
+        "item": 30,
+        "itemName": "60分雨量",
+        "unit": null,
+        "id": 1001,
+        "name": "注意値",
+        "data": "20.0",
+        "startDate": "",
+        "endDate": ""
+      },
+      {
+        "kind": 1,
+        "item": 70,
+        "itemName": "累加雨量",
+        "unit": null,
+        "id": 1001,
+        "name": "注意値",
+        "data": "80.0",
+        "startDate": "",
+        "endDate": ""
+      }
+    ]
+  },
+  "latest_times": {
+    "systemLatestTime": "202609091330",
+    "weatherLatestTime": "202609091110",
+    "tsunamiLatestTime": "202606081650",
+    "kikikuruLatestTime": "202609091330",
+    "rainStaLatestTime": "202609091330",
+    "waterStaLatestTime": "202609091330",
+    "kikikanriStaLatestTime": "202609091345",
+    "cameraStaLatestTime": "202609091330",
+    "damStaLatestTime": "202609091340",
+    "masterDataChgTime": "20260908064354",
+    "gisMasterDataChgTime": "20260908064354",
+    "obsDataChgTime": "20260908064354",
+    "infosChgTime": "20260908064354"
+  },
+  "page_indicators": [
+    {
+      "tag": "div",
+      "id": "navbarNav",
+      "class": [
+        "collapse",
+        "navbar-collapse"
+      ],
+      "text": "トップ 地図情報 雨量情報 水位情報 危機管理型水位情報 河川カメラ一覧 ダム情報 お知らせ リンクページ 用語の解説 操作説明"
+    },
+    {
+      "tag": "div",
+      "id": "content",
+      "class": null,
+      "text": "凡例 60分雨量:注意 ---- 60分雨量:警戒 ---- 累加雨量:注意 ---- 累加雨量:警戒 ---- 各種雨量の定義について 60分雨量[mm/h] 累加雨量[mm] 12時間 24時間 48時間 72時間 60分雨量（最大） 時刻 60分雨量 [mm] ---- ---- 10分間隔 1時間間隔"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "row"
+      ],
+      "text": "凡例 60分雨量:注意 ---- 60分雨量:警戒 ---- 累加雨量:注意 ---- 累加雨量:警戒 ---- 各種雨量の定義について 60分雨量[mm/h] 累加雨量[mm] 12時間 24時間 48時間 72時間 60分雨量（最大） 時刻 60分雨量 [mm] ---- ---- 10分間隔 1時間間隔"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "list-legend"
+      ],
+      "text": "凡例 60分雨量:注意 ---- 60分雨量:警戒 ---- 累加雨量:注意 ---- 累加雨量:警戒 ---- 各種雨量の定義について"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "card"
+      ],
+      "text": "60分雨量:注意 ---- 60分雨量:警戒 ---- 累加雨量:注意 ---- 累加雨量:警戒 ---- 各種雨量の定義について"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "row",
+        "hour"
+      ],
+      "text": "60分雨量:注意 ---- 60分雨量:警戒 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "legend-item",
+        "col-sm-6"
+      ],
+      "text": "60分雨量:注意 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "const-text"
+      ],
+      "text": "60分雨量:注意"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "legend-item",
+        "col-sm-6"
+      ],
+      "text": "60分雨量:警戒 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "const-text"
+      ],
+      "text": "60分雨量:警戒"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "row",
+        "cuml"
+      ],
+      "text": "累加雨量:注意 ---- 累加雨量:警戒 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "legend-item",
+        "col-sm-6"
+      ],
+      "text": "累加雨量:注意 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "const-text"
+      ],
+      "text": "累加雨量:注意"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "legend-item",
+        "col-sm-6"
+      ],
+      "text": "累加雨量:警戒 ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "const-text"
+      ],
+      "text": "累加雨量:警戒"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": null,
+      "text": "各種雨量の定義について"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "col-xl-12",
+        "mobile-margin"
+      ],
+      "text": "60分雨量[mm/h] 累加雨量[mm] 12時間 24時間 48時間 72時間"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "label",
+        "rain"
+      ],
+      "text": "60分雨量[mm/h] 累加雨量[mm]"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": null,
+      "text": "60分雨量[mm/h]"
+    },
+    {
+      "tag": "span",
+      "id": null,
+      "class": [
+        "rain-hour"
+      ],
+      "text": "60分雨量[mm/h]"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": null,
+      "text": "累加雨量[mm]"
+    },
+    {
+      "tag": "span",
+      "id": null,
+      "class": [
+        "rain-cumul"
+      ],
+      "text": "累加雨量[mm]"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "col-xl-6",
+        "mobile-margin"
+      ],
+      "text": "60分雨量（最大） 時刻 60分雨量 [mm] ---- ----"
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": [
+        "content-title"
+      ],
+      "text": "60分雨量（最大）"
+    },
+    {
+      "tag": "div",
+      "id": "max-rain",
+      "class": null,
+      "text": "時刻 60分雨量 [mm] ---- ----"
+    },
+    {
+      "tag": "th",
+      "id": null,
+      "class": [
+        "rain"
+      ],
+      "text": "60分雨量 [mm]"
+    }
+  ],
+  "probe_window_minutes": 360,
+  "attempts": [
+    {
+      "time": "202609091330",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091330_2_20260908064354.json"
+    },
+    {
+      "time": "202609091320",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091320_2_20260908064354.json"
+    },
+    {
+      "time": "202609091310",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091310_2_20260908064354.json"
+    },
+    {
+      "time": "202609091300",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091300_2_20260908064354.json"
+    },
+    {
+      "time": "202609091250",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091250_2_20260908064354.json"
+    },
+    {
+      "time": "202609091240",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091240_2_20260908064354.json"
+    },
+    {
+      "time": "202609091230",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091230_2_20260908064354.json"
+    },
+    {
+      "time": "202609091220",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091220_2_20260908064354.json"
+    },
+    {
+      "time": "202609091210",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091210_2_20260908064354.json"
+    },
+    {
+      "time": "202609091200",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091200_2_20260908064354.json"
+    },
+    {
+      "time": "202609091150",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091150_2_20260908064354.json"
+    },
+    {
+      "time": "202609091140",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091140_2_20260908064354.json"
+    },
+    {
+      "time": "202609091130",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091130_2_20260908064354.json"
+    },
+    {
+      "time": "202609091120",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091120_2_20260908064354.json"
+    },
+    {
+      "time": "202609091110",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091110_2_20260908064354.json"
+    },
+    {
+      "time": "202609091100",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091100_2_20260908064354.json"
+    },
+    {
+      "time": "202609091050",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091050_2_20260908064354.json"
+    },
+    {
+      "time": "202609091040",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091040_2_20260908064354.json"
+    },
+    {
+      "time": "202609091030",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091030_2_20260908064354.json"
+    },
+    {
+      "time": "202609091020",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091020_2_20260908064354.json"
+    },
+    {
+      "time": "202609091010",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091010_2_20260908064354.json"
+    },
+    {
+      "time": "202609091000",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609091000_2_20260908064354.json"
+    },
+    {
+      "time": "202609090950",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090950_2_20260908064354.json"
+    },
+    {
+      "time": "202609090940",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090940_2_20260908064354.json"
+    },
+    {
+      "time": "202609090930",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090930_2_20260908064354.json"
+    },
+    {
+      "time": "202609090920",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090920_2_20260908064354.json"
+    },
+    {
+      "time": "202609090910",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090910_2_20260908064354.json"
+    },
+    {
+      "time": "202609090900",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090900_2_20260908064354.json"
+    },
+    {
+      "time": "202609090850",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090850_2_20260908064354.json"
+    },
+    {
+      "time": "202609090840",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090840_2_20260908064354.json"
+    },
+    {
+      "time": "202609090830",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090830_2_20260908064354.json"
+    },
+    {
+      "time": "202609090820",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090820_2_20260908064354.json"
+    },
+    {
+      "time": "202609090810",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090810_2_20260908064354.json"
+    },
+    {
+      "time": "202609090800",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090800_2_20260908064354.json"
+    },
+    {
+      "time": "202609090750",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090750_2_20260908064354.json"
+    },
+    {
+      "time": "202609090740",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090740_2_20260908064354.json"
+    },
+    {
+      "time": "202609090730",
+      "status": 404,
+      "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609090730_2_20260908064354.json"
+    }
+  ],
+  "found": null
+}
