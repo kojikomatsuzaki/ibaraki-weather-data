@@ -22,13 +22,13 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
-      - name: Fetch three rainfall stations
+      - name: Diagnose Utsuhara station
         env:
-          TEST_LIMIT: "3"
-          FALLBACK_STEPS: "6"
+          DIAGNOSTIC_STATION_ID: "2"
+          DIAGNOSTIC_STEPS: "36"
         run: python scripts/fetch_rainfall.py
 
-      - name: Commit fetched data
+      - name: Commit diagnostic result
         run: |
           if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
             echo "No data changes to commit."
@@ -38,5 +38,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          git commit -m "Update rainfall test data"
+          git commit -m "Update rainfall station diagnostic"
           git push
