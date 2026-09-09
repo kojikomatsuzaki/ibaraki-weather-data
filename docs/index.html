@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>茨城気象観測データ α</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">ibaraki-weather-data</div>
+      <h1>茨城気象観測データ <span>α</span></h1>
+      <p>まずは茨城県河川情報システムの雨量観測局を少数局で試験収集中です。</p>
+    </header>
+
+    <section class="status" id="status">読み込み中…</section>
+    <section class="grid" id="stations"></section>
+
+    <section class="note">
+      <h2>このページについて</h2>
+      <p>アルファ版のため、取得対象は一部の観測局のみです。取得できない局も異常とは断定せず、現時点では「指定時刻付近でJSONを確認できなかった」という事実として記録しています。</p>
+      <p>表示値は収集済みスナップショットから生成しており、元データの出典・観測時刻を各カードに表示します。</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
