@@ -1,40 +1,18 @@
 {
-  "alpha": true,
-  "snapshot": "202609110530",
-  "retrievedAt": "2026-09-10T20:48:54.433506+00:00",
-  "rainStaLatestTime": "202609110530",
+  "retrieved_at": "2026-09-10T20:48:54.433506+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=1",
+  "system_latest_time": "202609110530",
+  "rain_sta_latest_time": "202609110530",
+  "obs_data_chg_time": "20260910145210",
+  "fallback_window_minutes": 60,
   "requested": 3,
   "success": 1,
-  "unavailableCount": 2,
-  "fallbackUsed": 1,
-  "stations": [
-    {
-      "staId": 3,
-      "staName": "岩間支所",
-      "cityName": "笠間市",
-      "officeName": "水戸土木事務所",
-      "riverName": "涸沼川",
-      "lat": 36.298056,
-      "lon": 140.292778,
-      "obsTime": "2026/09/11 05:00",
-      "resolvedLatestTime": "202609110500",
-      "fallbackSteps": 3,
-      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609110500_3_20260910145210.json",
-      "hourRain": {
-        "time": "2026/09/11 05:00",
-        "data": "3.0",
-        "lvl": 0,
-        "upDown": "None"
-      },
-      "cumulativeRain": {
-        "time": "2026/09/11 05:00",
-        "data": "4.0",
-        "lvl": 0,
-        "upDown": "None"
-      }
-    }
-  ],
-  "unavailable": [
+  "unavailable": 2,
+  "fallback_used": 1,
+  "resolved_latest_times": {
+    "3": "202609110500"
+  },
+  "unavailable_stations": [
     {
       "staId": 1,
       "staName": "茨城町役場",
