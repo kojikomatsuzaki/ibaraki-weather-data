@@ -1,65 +1,19 @@
 {
-  "alpha": true,
-  "snapshot": "202609121920",
-  "retrievedAt": "2026-09-12T10:41:09.516123+00:00",
-  "rainStaLatestTime": "202609121920",
+  "retrieved_at": "2026-09-12T10:41:09.516123+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=1",
+  "system_latest_time": "202609121920",
+  "rain_sta_latest_time": "202609121920",
+  "obs_data_chg_time": "20260910145210",
+  "fallback_window_minutes": 60,
   "requested": 3,
   "success": 2,
-  "unavailableCount": 1,
-  "fallbackUsed": 2,
-  "stations": [
-    {
-      "staId": 1,
-      "staName": "茨城町役場",
-      "cityName": "茨城町",
-      "officeName": "水戸土木事務所",
-      "riverName": "涸沼川",
-      "lat": 36.286944,
-      "lon": 140.424167,
-      "obsTime": "2026/09/12 18:30",
-      "resolvedLatestTime": "202609121830",
-      "fallbackSteps": 5,
-      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609121830_1_20260910145210.json",
-      "hourRain": {
-        "time": "2026/09/12 18:30",
-        "data": "0.0",
-        "lvl": 0,
-        "upDown": "None"
-      },
-      "cumulativeRain": {
-        "time": "2026/09/12 18:30",
-        "data": "0.0",
-        "lvl": 0,
-        "upDown": "None"
-      }
-    },
-    {
-      "staId": 3,
-      "staName": "岩間支所",
-      "cityName": "笠間市",
-      "officeName": "水戸土木事務所",
-      "riverName": "涸沼川",
-      "lat": 36.298056,
-      "lon": 140.292778,
-      "obsTime": "2026/09/12 18:30",
-      "resolvedLatestTime": "202609121830",
-      "fallbackSteps": 5,
-      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609121830_3_20260910145210.json",
-      "hourRain": {
-        "time": "2026/09/12 18:30",
-        "data": "0.0",
-        "lvl": 0,
-        "upDown": "None"
-      },
-      "cumulativeRain": {
-        "time": "2026/09/12 18:30",
-        "data": "0.0",
-        "lvl": 0,
-        "upDown": "None"
-      }
-    }
-  ],
-  "unavailable": [
+  "unavailable": 1,
+  "fallback_used": 2,
+  "resolved_latest_times": {
+    "1": "202609121830",
+    "3": "202609121830"
+  },
+  "unavailable_stations": [
     {
       "staId": 2,
       "staName": "内原支所",
