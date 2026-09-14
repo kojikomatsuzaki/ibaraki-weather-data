@@ -1,1 +1,1 @@
-# -ibaraki-weather-data
+# ibaraki-weather-data
