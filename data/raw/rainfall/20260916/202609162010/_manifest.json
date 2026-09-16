@@ -1,0 +1,61 @@
+{
+  "retrieved_at": "2026-09-16T11:26:15.955766+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=1",
+  "system_latest_time": "202609162010",
+  "rain_sta_latest_time": "202609162010",
+  "obs_data_chg_time": "20260910145210",
+  "fallback_window_minutes": 60,
+  "requested": 3,
+  "success": 2,
+  "unavailable": 1,
+  "fallback_used": 2,
+  "resolved_latest_times": {
+    "1": "202609162000",
+    "3": "202609162000"
+  },
+  "unavailable_stations": [
+    {
+      "staId": 2,
+      "staName": "内原支所",
+      "status": "not_found_at_requested_times",
+      "error": "rainfall JSON not found within 60 minutes from 202609162010",
+      "attempts": [
+        {
+          "time": "202609162010",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609162010_2_20260910145210.json"
+        },
+        {
+          "time": "202609162000",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609162000_2_20260910145210.json"
+        },
+        {
+          "time": "202609161950",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609161950_2_20260910145210.json"
+        },
+        {
+          "time": "202609161940",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609161940_2_20260910145210.json"
+        },
+        {
+          "time": "202609161930",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609161930_2_20260910145210.json"
+        },
+        {
+          "time": "202609161920",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609161920_2_20260910145210.json"
+        },
+        {
+          "time": "202609161910",
+          "http_status": 404,
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609161910_2_20260910145210.json"
+        }
+      ]
+    }
+  ]
+}
