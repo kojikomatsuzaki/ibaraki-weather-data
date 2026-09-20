@@ -1,13 +1,63 @@
 {
   "alpha": true,
-  "snapshot": "202609210040",
-  "retrievedAt": "2026-09-20T16:00:16.725485+00:00",
-  "rainStaLatestTime": "202609210040",
+  "snapshot": "202609210530",
+  "retrievedAt": "2026-09-20T20:45:36.927030+00:00",
+  "rainStaLatestTime": "202609210530",
   "requested": 3,
-  "success": 1,
-  "unavailableCount": 2,
-  "fallbackUsed": 1,
+  "success": 3,
+  "unavailableCount": 0,
+  "fallbackUsed": 3,
   "stations": [
+    {
+      "staId": 1,
+      "staName": "茨城町役場",
+      "cityName": "茨城町",
+      "officeName": "水戸土木事務所",
+      "riverName": "涸沼川",
+      "lat": 36.286944,
+      "lon": 140.424167,
+      "obsTime": "2026/09/21 05:20",
+      "resolvedLatestTime": "202609210520",
+      "fallbackSteps": 1,
+      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210520_1_20260910145210.json",
+      "hourRain": {
+        "time": "2026/09/21 05:20",
+        "data": "1.0",
+        "lvl": 0,
+        "upDown": "None"
+      },
+      "cumulativeRain": {
+        "time": "2026/09/21 05:20",
+        "data": "73.0",
+        "lvl": 0,
+        "upDown": "None"
+      }
+    },
+    {
+      "staId": 2,
+      "staName": "内原支所",
+      "cityName": "水戸市",
+      "officeName": "水戸土木事務所",
+      "riverName": "涸沼川",
+      "lat": 36.362222,
+      "lon": 140.356389,
+      "obsTime": "2026/09/21 05:20",
+      "resolvedLatestTime": "202609210520",
+      "fallbackSteps": 1,
+      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210520_2_20260910145210.json",
+      "hourRain": {
+        "time": "2026/09/21 05:20",
+        "data": "0.5",
+        "lvl": 0,
+        "upDown": "None"
+      },
+      "cumulativeRain": {
+        "time": "2026/09/21 05:20",
+        "data": "64.0",
+        "lvl": 0,
+        "upDown": "None"
+      }
+    },
     {
       "staId": 3,
       "staName": "岩間支所",
@@ -16,110 +66,23 @@
       "riverName": "涸沼川",
       "lat": 36.298056,
       "lon": 140.292778,
-      "obsTime": "2026/09/21 00:20",
-      "resolvedLatestTime": "202609210020",
-      "fallbackSteps": 2,
-      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210020_3_20260910145210.json",
+      "obsTime": "2026/09/21 05:20",
+      "resolvedLatestTime": "202609210520",
+      "fallbackSteps": 1,
+      "sourceUrl": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210520_3_20260910145210.json",
       "hourRain": {
-        "time": "2026/09/21 00:20",
-        "data": "5.0",
+        "time": "2026/09/21 05:20",
+        "data": "3.0",
         "lvl": 0,
         "upDown": "None"
       },
       "cumulativeRain": {
-        "time": "2026/09/21 00:20",
-        "data": "37.0",
-        "lvl": 0,
+        "time": "2026/09/21 05:20",
+        "data": "83.0",
+        "lvl": 1,
         "upDown": "None"
       }
     }
   ],
-  "unavailable": [
-    {
-      "staId": 1,
-      "staName": "茨城町役場",
-      "status": "not_found_at_requested_times",
-      "error": "rainfall JSON not found within 60 minutes from 202609210040",
-      "attempts": [
-        {
-          "time": "202609210040",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210040_1_20260910145210.json"
-        },
-        {
-          "time": "202609210030",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210030_1_20260910145210.json"
-        },
-        {
-          "time": "202609210020",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210020_1_20260910145210.json"
-        },
-        {
-          "time": "202609210010",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210010_1_20260910145210.json"
-        },
-        {
-          "time": "202609210000",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210000_1_20260910145210.json"
-        },
-        {
-          "time": "202609202350",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609202350_1_20260910145210.json"
-        },
-        {
-          "time": "202609202340",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609202340_1_20260910145210.json"
-        }
-      ]
-    },
-    {
-      "staId": 2,
-      "staName": "内原支所",
-      "status": "not_found_at_requested_times",
-      "error": "rainfall JSON not found within 60 minutes from 202609210040",
-      "attempts": [
-        {
-          "time": "202609210040",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210040_2_20260910145210.json"
-        },
-        {
-          "time": "202609210030",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210030_2_20260910145210.json"
-        },
-        {
-          "time": "202609210020",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210020_2_20260910145210.json"
-        },
-        {
-          "time": "202609210010",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210010_2_20260910145210.json"
-        },
-        {
-          "time": "202609210000",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609210000_2_20260910145210.json"
-        },
-        {
-          "time": "202609202350",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609202350_2_20260910145210.json"
-        },
-        {
-          "time": "202609202340",
-          "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202609202340_2_20260910145210.json"
-        }
-      ]
-    }
-  ]
+  "unavailable": []
 }

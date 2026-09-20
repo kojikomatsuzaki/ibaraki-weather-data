@@ -1,0 +1,18 @@
+{
+  "retrieved_at": "2026-09-20T20:45:36.927030+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=1",
+  "system_latest_time": "202609210530",
+  "rain_sta_latest_time": "202609210530",
+  "obs_data_chg_time": "20260910145210",
+  "fallback_window_minutes": 60,
+  "requested": 3,
+  "success": 3,
+  "unavailable": 0,
+  "fallback_used": 3,
+  "resolved_latest_times": {
+    "1": "202609210520",
+    "2": "202609210520",
+    "3": "202609210520"
+  },
+  "unavailable_stations": []
+}
