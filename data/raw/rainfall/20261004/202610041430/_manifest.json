@@ -1,14 +1,16 @@
 {
-  "alpha": true,
-  "snapshot": "202610041430",
-  "retrievedAt": "2026-10-04T05:46:03.137475+00:00",
-  "rainStaLatestTime": "202610041430",
+  "retrieved_at": "2026-10-04T05:46:03.137475+00:00",
+  "entry_url": "https://kasen-pref-ibaraki.jp/Sta/RainfallSta?obsStaId=1",
+  "system_latest_time": "202610041430",
+  "rain_sta_latest_time": "202610041430",
+  "obs_data_chg_time": "20260930112637",
+  "fallback_window_minutes": 60,
   "requested": 3,
   "success": 0,
-  "unavailableCount": 3,
-  "fallbackUsed": 0,
-  "stations": [],
-  "unavailable": [
+  "unavailable": 3,
+  "fallback_used": 0,
+  "resolved_latest_times": {},
+  "unavailable_stations": [
     {
       "staId": 1,
       "staName": "茨城町役場",
