@@ -1,8 +1,8 @@
 {
   "alpha": true,
-  "snapshot": "202610310240",
-  "retrievedAt": "2026-10-30T17:58:31.590266+00:00",
-  "rainStaLatestTime": "202610310240",
+  "snapshot": "202610310700",
+  "retrievedAt": "2026-10-30T22:14:45.891713+00:00",
+  "rainStaLatestTime": "202610310700",
   "requested": 3,
   "success": 0,
   "unavailableCount": 3,
@@ -13,42 +13,42 @@
       "staId": 1,
       "staName": "茨城町役場",
       "status": "not_found_at_requested_times",
-      "error": "rainfall JSON not found within 60 minutes from 202610310240",
+      "error": "rainfall JSON not found within 60 minutes from 202610310700",
       "attempts": [
         {
-          "time": "202610310240",
+          "time": "202610310700",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310240_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310700_1_20260930112637.json"
         },
         {
-          "time": "202610310230",
+          "time": "202610310650",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310230_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310650_1_20260930112637.json"
         },
         {
-          "time": "202610310220",
+          "time": "202610310640",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310220_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310640_1_20260930112637.json"
         },
         {
-          "time": "202610310210",
+          "time": "202610310630",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310210_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310630_1_20260930112637.json"
         },
         {
-          "time": "202610310200",
+          "time": "202610310620",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310200_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310620_1_20260930112637.json"
         },
         {
-          "time": "202610310150",
+          "time": "202610310610",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310150_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310610_1_20260930112637.json"
         },
         {
-          "time": "202610310140",
+          "time": "202610310600",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310140_1_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310600_1_20260930112637.json"
         }
       ]
     },
@@ -56,42 +56,42 @@
       "staId": 2,
       "staName": "内原支所",
       "status": "not_found_at_requested_times",
-      "error": "rainfall JSON not found within 60 minutes from 202610310240",
+      "error": "rainfall JSON not found within 60 minutes from 202610310700",
       "attempts": [
         {
-          "time": "202610310240",
+          "time": "202610310700",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310240_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310700_2_20260930112637.json"
         },
         {
-          "time": "202610310230",
+          "time": "202610310650",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310230_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310650_2_20260930112637.json"
         },
         {
-          "time": "202610310220",
+          "time": "202610310640",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310220_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310640_2_20260930112637.json"
         },
         {
-          "time": "202610310210",
+          "time": "202610310630",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310210_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310630_2_20260930112637.json"
         },
         {
-          "time": "202610310200",
+          "time": "202610310620",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310200_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310620_2_20260930112637.json"
         },
         {
-          "time": "202610310150",
+          "time": "202610310610",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310150_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310610_2_20260930112637.json"
         },
         {
-          "time": "202610310140",
+          "time": "202610310600",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310140_2_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310600_2_20260930112637.json"
         }
       ]
     },
@@ -99,42 +99,42 @@
       "staId": 3,
       "staName": "岩間支所",
       "status": "not_found_at_requested_times",
-      "error": "rainfall JSON not found within 60 minutes from 202610310240",
+      "error": "rainfall JSON not found within 60 minutes from 202610310700",
       "attempts": [
         {
-          "time": "202610310240",
+          "time": "202610310700",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310240_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310700_3_20260930112637.json"
         },
         {
-          "time": "202610310230",
+          "time": "202610310650",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310230_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310650_3_20260930112637.json"
         },
         {
-          "time": "202610310220",
+          "time": "202610310640",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310220_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310640_3_20260930112637.json"
         },
         {
-          "time": "202610310210",
+          "time": "202610310630",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310210_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310630_3_20260930112637.json"
         },
         {
-          "time": "202610310200",
+          "time": "202610310620",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310200_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310620_3_20260930112637.json"
         },
         {
-          "time": "202610310150",
+          "time": "202610310610",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310150_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310610_3_20260930112637.json"
         },
         {
-          "time": "202610310140",
+          "time": "202610310600",
           "http_status": 404,
-          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310140_3_20260930112637.json"
+          "url": "https://kasen-pref-ibaraki.jp/Static/Sta/GetRainfallStaData_202610310600_3_20260930112637.json"
         }
       ]
     }
